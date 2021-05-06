@@ -1,0 +1,87 @@
+<?php
+
+
+
+require_once "./app/models/persona.php";
+require_once "./app/db/AccesoDatos.php";
+
+class Empleado extends Persona{
+
+    public $idEmpleados;
+    public $funcion;
+    public $fechaAlta;
+    public $horaIngreso;
+    public $horaEgreso;
+    public $fechaBaja;
+    const FUNCIONES = array("Bartender","Mozo","Cervecero","Cocinero");
+
+    public function __construct()
+    {
+
+        
+    }
+    public function SetDatos ($nombre,$apellido,$funcion,$fechaAlta,$horaIngreso,$horaEgreso)
+    {
+        parent::SetNombre($nombre);
+        parent::SetApellido($apellido);
+        $this->SetFuncion($funcion);
+        $this->fechaAlta = $fechaAlta;
+        $this->horaIngreso = $horaIngreso;
+        $this->horaEgreso = $horaEgreso;
+    }
+
+    private function SetFuncion($value)
+    {
+        if(isset($value) && is_string($value) && in_array($value,self::FUNCIONES)){
+            $this->funcion =  $value;
+        }
+    }
+    private function GetObjeto()
+    {
+        return array("idEmpleados"=>$this->idEmpleados,"nombre"=>$this->nombre,"apellido"=>$this->apellido,"funcion"=>$this->funcion,"fechaAlta"=>$this->fechaAlta,"horaIngreso"=>$this->horaIngreso,"horaEgreso"=>$this->horaEgreso,"fechaBaja"=>$this->fechaBaja);
+    }
+
+    /**
+    * @return string Una cadena de texto todos los datos del Objeto en formato texto
+    */
+    public function MostrarDatos()
+    {
+        $returnAux="";
+        $flag = 0;
+        foreach ($this->GetObjeto() as $key => $value) {
+            $flag++;
+            if($flag>1)
+            {
+                $returnAux.=" ";
+            }
+            $returnAux.=$key . ": " . $value;
+        }
+        $returnAux.="\r\n";
+        return $returnAux;
+    }
+    public static function TraerTodoLosEmpleados()
+	{
+		$objetoAccesoDato = AccesoDatos::dameUnObjetoAcceso(); 
+		$consulta =$objetoAccesoDato->RetornarConsulta("select * from empleados");
+		$consulta->execute();
+        return $consulta->fetchAll(PDO::FETCH_CLASS,'Empleado');	
+    }
+    public function InsertarEmpleado()
+    {
+           $objetoAccesoDato = AccesoDatos::dameUnObjetoAcceso(); 
+           $consulta =$objetoAccesoDato->RetornarConsulta("INSERT INTO empleados (nombre,apellido,funcion,fechaAlta,horaIngreso,horaEgreso)VALUES(:nombre,:apellido,:funcion,:fechaAlta,:horaIngreso,:horaEgreso)");
+           var_dump($this->nombre);
+           $consulta->bindValue(':nombre',$this->nombre, PDO::PARAM_STR);
+           $consulta->bindValue(':apellido',$this->apellido, PDO::PARAM_STR);
+           $consulta->bindValue(':funcion',$this->funcion, PDO::PARAM_STR);
+           $consulta->bindValue(':fechaAlta',$this->fechaAlta, PDO::PARAM_STR);
+           $consulta->bindValue(':horaIngreso',$this->horaIngreso, PDO::PARAM_STR);
+           $consulta->bindValue(':horaEgreso',$this->horaEgreso, PDO::PARAM_STR);
+           $consulta->execute();		
+           return $objetoAccesoDato->RetornarUltimoIdInsertado();
+    }
+
+}
+
+
+?>

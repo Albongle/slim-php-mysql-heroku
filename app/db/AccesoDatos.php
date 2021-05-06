@@ -1,9 +1,9 @@
 <?php
 class AccesoDatos
 {
-    private static $objAccesoDatos;
+    private static $ObjetoAccesoDatos;
     private $objetoPDO;
-
+ 
     private function __construct()
     {
         try {
@@ -14,27 +14,29 @@ class AccesoDatos
             die();
         }
     }
-
-    public static function obtenerInstancia()
-    {
-        if (!isset(self::$objAccesoDatos)) {
-            self::$objAccesoDatos = new AccesoDatos();
-        }
-        return self::$objAccesoDatos;
+ 
+    public function RetornarConsulta($sql)
+    { 
+        return $this->objetoPDO->prepare($sql); 
     }
-
-    public function prepararConsulta($sql)
-    {
-        return $this->objetoPDO->prepare($sql);
+     public function RetornarUltimoIdInsertado()
+    { 
+        return $this->objetoPDO->lastInsertId(); 
     }
-
-    public function obtenerUltimoId()
-    {
-        return $this->objetoPDO->lastInsertId();
+ 
+    public static function dameUnObjetoAcceso()
+    { 
+        if (!isset(self::$ObjetoAccesoDatos)) {          
+            self::$ObjetoAccesoDatos = new AccesoDatos(); 
+        } 
+        return self::$ObjetoAccesoDatos;        
     }
-
+ 
+ 
+     // Evita que el objeto se pueda clonar
     public function __clone()
-    {
-        trigger_error('ERROR: La clonación de este objeto no está permitida', E_USER_ERROR);
+    { 
+        trigger_error('La clonación de este objeto no está permitida', E_USER_ERROR); 
     }
 }
+?>
