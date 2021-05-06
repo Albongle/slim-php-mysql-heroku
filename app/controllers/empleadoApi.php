@@ -23,8 +23,6 @@ class EmpleadoApi extends Empleado implements IApiUsable{
         else{
             $response->getBody()->write("No se guardo nada");
         }
-        
-
         return $response;
     }
 }
