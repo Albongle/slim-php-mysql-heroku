@@ -14,7 +14,7 @@ require __DIR__ . '/../vendor/autoload.php';
 require_once "./db/AccesoDatos.php";
 // require_once './middlewares/Logger.php';
 
-require_once "./app/controllers/empleadoApi.php";
+require_once "./controllers/empleadoApi.php";
 
 // Instantiate App
 $app = AppFactory::create();
