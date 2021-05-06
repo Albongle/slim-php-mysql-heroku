@@ -24,10 +24,10 @@ $app->addErrorMiddleware(true, true, true);
 
 
 // Routes
-$app->group('/empleados', function () {
+$app->group('/empleados', function (RouteCollectorProxy $group) {
 
-  $this->post('/', \EmpleadoApi::class. ':CargarUno');
-  $this->get('/', \EmpleadoApi::class. ':TraerTodos');
+  $group->post('/', \EmpleadoApi::class. ':CargarUno');
+  $group->get('/', \EmpleadoApi::class. ':TraerTodos');
 
 });
 
