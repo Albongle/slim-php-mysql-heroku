@@ -14,12 +14,20 @@ abstract class Persona{
         {
             $this->nombre =  $value;
         }
+        else
+        {
+            throw new Exception("Nombre erroneo");
+        }
     }
     protected function SetApellido($value)
     {
         if($this->ValidaNombreApellido($value))
         {
             $this->apellido =  $value;
+        }
+        else
+        {
+            throw new Exception("Apellido erroneo");
         }
     }
 

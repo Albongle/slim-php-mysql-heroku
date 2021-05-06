@@ -6,9 +6,9 @@ class EmpleadoApi extends Empleado implements IApiUsable{
 
     public function TraerTodos($request, $response, $args)
     {
-        $lista = Empleado::TraerTodoLosEmpleados();
-        $payload = json_encode(array("listaUsuario" => $lista));
-        $response->getBody()->write($payload);
+        $listraEmpleados = Empleado::TraerTodoLosEmpleados();
+        $jsonEmpleado = json_encode(array("listaEmpleados" => $listraEmpleados));
+        $response->getBody()->write($jsonEmpleado);
         return $response
           ->withHeader('Content-Type', 'application/json');
     }

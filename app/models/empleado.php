@@ -2,8 +2,8 @@
 require_once "./models/persona.php";
 require_once "./db/AccesoDatos.php";
 
-class Empleado extends Persona{
-
+class Empleado extends Persona
+{
     public $idEmpleados;
     public $funcion;
     public $fechaAlta;
@@ -14,10 +14,8 @@ class Empleado extends Persona{
 
     public function __construct()
     {
-
-        
     }
-    public function SetDatos ($nombre,$apellido,$funcion,$fechaAlta,$horaIngreso,$horaEgreso)
+    public function SetDatos($nombre, $apellido, $funcion, $fechaAlta, $horaIngreso, $horaEgreso)
     {
         parent::SetNombre($nombre);
         parent::SetApellido($apellido);
@@ -29,8 +27,10 @@ class Empleado extends Persona{
 
     private function SetFuncion($value)
     {
-        if(isset($value) && is_string($value) && in_array($value,self::FUNCIONES)){
+        if (isset($value) && is_string($value) && in_array($value, self::FUNCIONES)) {
             $this->funcion =  $value;
+        } else {
+            throw new Exception("Funcion no permitida");
         }
     }
     private function GetObjeto()
@@ -47,8 +47,7 @@ class Empleado extends Persona{
         $flag = 0;
         foreach ($this->GetObjeto() as $key => $value) {
             $flag++;
-            if($flag>1)
-            {
+            if ($flag>1) {
                 $returnAux.=" ";
             }
             $returnAux.=$key . ": " . $value;
@@ -57,28 +56,23 @@ class Empleado extends Persona{
         return $returnAux;
     }
     public static function TraerTodoLosEmpleados()
-	{
-		$objetoAccesoDato = AccesoDatos::dameUnObjetoAcceso(); 
-		$consulta =$objetoAccesoDato->RetornarConsulta("select * from empleados");
-		$consulta->execute();
-        return $consulta->fetchAll(PDO::FETCH_CLASS,'Empleado');	
+    {
+        $objetoAccesoDato = AccesoDatos::dameUnObjetoAcceso();
+        $consulta =$objetoAccesoDato->RetornarConsulta("select * from empleados");
+        $consulta->execute();
+        return $consulta->fetchAll(PDO::FETCH_CLASS, 'Empleado');
     }
     public function InsertarEmpleado()
     {
-           $objetoAccesoDato = AccesoDatos::dameUnObjetoAcceso(); 
-           $consulta =$objetoAccesoDato->RetornarConsulta("INSERT INTO empleados (nombre,apellido,funcion,fechaAlta,horaIngreso,horaEgreso)VALUES(:nombre,:apellido,:funcion,:fechaAlta,:horaIngreso,:horaEgreso)");
-           var_dump($this->nombre);
-           $consulta->bindValue(':nombre',$this->nombre, PDO::PARAM_STR);
-           $consulta->bindValue(':apellido',$this->apellido, PDO::PARAM_STR);
-           $consulta->bindValue(':funcion',$this->funcion, PDO::PARAM_STR);
-           $consulta->bindValue(':fechaAlta',$this->fechaAlta, PDO::PARAM_STR);
-           $consulta->bindValue(':horaIngreso',$this->horaIngreso, PDO::PARAM_STR);
-           $consulta->bindValue(':horaEgreso',$this->horaEgreso, PDO::PARAM_STR);
-           $consulta->execute();		
-           return $objetoAccesoDato->RetornarUltimoIdInsertado();
+        $objetoAccesoDato = AccesoDatos::dameUnObjetoAcceso();
+        $consulta =$objetoAccesoDato->RetornarConsulta("INSERT INTO empleados (nombre,apellido,funcion,fechaAlta,horaIngreso,horaEgreso)VALUES(:nombre,:apellido,:funcion,:fechaAlta,:horaIngreso,:horaEgreso)");
+        $consulta->bindValue(':nombre', $this->nombre, PDO::PARAM_STR);
+        $consulta->bindValue(':apellido', $this->apellido, PDO::PARAM_STR);
+        $consulta->bindValue(':funcion', $this->funcion, PDO::PARAM_STR);
+        $consulta->bindValue(':fechaAlta', $this->fechaAlta, PDO::PARAM_STR);
+        $consulta->bindValue(':horaIngreso', $this->horaIngreso, PDO::PARAM_STR);
+        $consulta->bindValue(':horaEgreso', $this->horaEgreso, PDO::PARAM_STR);
+        $consulta->execute();
+        return $objetoAccesoDato->RetornarUltimoIdInsertado();
     }
-
 }
-
-
-?>
