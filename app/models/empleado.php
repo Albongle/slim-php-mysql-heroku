@@ -1,6 +1,6 @@
 <?php
-require_once "../models/persona.php";
-require_once "../db/AccesoDatos.php";
+require_once "./models/persona.php";
+require_once "./db/AccesoDatos.php";
 
 class Empleado extends Persona{
 
