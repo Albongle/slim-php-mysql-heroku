@@ -30,7 +30,7 @@ class Empleado extends Persona
         if (isset($value) && is_string($value) && in_array($value, self::FUNCIONES)) {
             $this->funcion =  $value;
         } else {
-            throw new Exception("Funcion no permitida");
+            throw new Exception("Funcion del empleado no permitida, solo se permite: ".array_values(self::FUNCIONES));
         }
     }
     private function GetObjeto()
