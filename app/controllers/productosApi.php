@@ -17,7 +17,7 @@ class ProductosApi extends Producto implements IApiUsable{
         $ArrayDeParametros = $request->getParsedBody();
         $producto =  new Producto();
         $producto->SetDatos($ArrayDeParametros['tipo'],$ArrayDeParametros['descripcion'],$ArrayDeParametros['stock'],$ArrayDeParametros['precio']);
-        if($producto->InsertarEmpleado()>0)
+        if($producto->InsertarProdcuto()>0)
         {
             $response->getBody()->write("se guardo el Producto, ". $producto->MostrarDatos());
         }

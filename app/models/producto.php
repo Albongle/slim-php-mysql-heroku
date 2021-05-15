@@ -68,7 +68,7 @@ class Producto implements IMostrarObjeto{
         $consulta->execute();
         return $consulta->fetchAll(PDO::FETCH_CLASS, 'Prodcuto');
     }
-    public function InsertarEmpleado()
+    public function InsertarProdcuto()
     {
         $objetoAccesoDato = AccesoDatos::dameUnObjetoAcceso();
         $consulta =$objetoAccesoDato->RetornarConsulta("INSERT INTO productos (tipo,descripcion,stock,precio)VALUES(:tipo,:descripcion,:stock,:precio)");
