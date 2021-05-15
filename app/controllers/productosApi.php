@@ -1,5 +1,5 @@
 <?php
-require_once "./models/prodcuto.php";
+require_once "./models/producto.php";
 require_once "./interfaces/IApiUsable.php";
 class ProductosApi extends Producto implements IApiUsable{
 
