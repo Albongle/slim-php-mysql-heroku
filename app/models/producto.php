@@ -1,5 +1,4 @@
 <?php
-require_once "./models/prodcuto.php";
 require_once "./db/AccesoDatos.php";
 require_once "./interfaces/IMostrarObjeto.php";
 class Producto implements IMostrarObjeto{
