@@ -69,7 +69,7 @@ class Producto implements IMostrarObjeto{
     public static function BuscaUnProductoPorNombreYTipo($nombre, $tipo)
     {
         $objetoAccesoDato = AccesoDatos::dameUnObjetoAcceso();
-        $consulta =$objetoAccesoDato->RetornarConsulta("SELECT * FROM prodcutos WHERE nombre = :nombre AND tipo = :tipo");
+        $consulta =$objetoAccesoDato->RetornarConsulta("SELECT * FROM productos WHERE nombre = :nombre AND tipo = :tipo");
         $consulta->bindValue(':nombre', $nombre, PDO::PARAM_STR);
         $consulta->bindValue(':tipo', $tipo, PDO::PARAM_STR);
         $consulta->execute();
