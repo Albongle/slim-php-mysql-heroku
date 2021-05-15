@@ -111,12 +111,12 @@ class Producto implements IMostrarObjeto{
         $consulta->execute();
         return $objetoAccesoDato->RetornarUltimoIdInsertado();
     }
-    public static function ActualizaProdcuto(Producto $producto)
+    public static function ActualizaProdcuto($id, $stock)
     {
         $objetoAccesoDato = AccesoDatos::dameUnObjetoAcceso();
         $consulta =$objetoAccesoDato->RetornarConsulta("UPDATE productos SET stock = :stock WHERE idProductos = :id");
-        $consulta->bindValue(':stock', $producto->stock, PDO::PARAM_INT);
-        $consulta->bindValue(':id', $producto->idProdcutos, PDO::PARAM_INT);
+        $consulta->bindValue(':stock', $stock, PDO::PARAM_INT);
+        $consulta->bindValue(':id', $id, PDO::PARAM_INT);
         $consulta->execute();
         return $objetoAccesoDato->RetornarUltimoIdInsertado();
     }

@@ -15,22 +15,22 @@ class ProductosApi extends Producto implements IApiUsable{
     public function CargarUno($request, $response, $args)
     {
         $ArrayDeParametros = $request->getParsedBody();
-        $producto =  new Producto();
-        $producto->SetDatos($ArrayDeParametros['tipo'],$ArrayDeParametros['nombre'],$ArrayDeParametros['stock'],$ArrayDeParametros['precio']);
+        $elProducto =  new Producto();
+        $elProducto->SetDatos($ArrayDeParametros['tipo'],$ArrayDeParametros['nombre'],$ArrayDeParametros['stock'],$ArrayDeParametros['precio']);
         $productoAux = Producto::BuscaUnProductoPorNombreYTipo($ArrayDeParametros['nombre'],$ArrayDeParametros['tipo']);
         
-        if($producto->ValidarProducto($productoAux))
+        if($elProducto->ValidarProducto($productoAux))
         {
-            if(Producto::ActualizaProdcuto($producto)>0){
-                $response->getBody()->write("se Actulizo el stock del Producto, ". $producto->MostrarDatos());
+            if(Producto::ActualizaProdcuto($productoAux->idProductos,$elProducto->stock)>0){
+                $response->getBody()->write("se Actulizo el stock del Producto, ". $elProducto->MostrarDatos());
             }
             else
             {
                 $response->getBody()->write("Prodcuto existente pero no se hizo nada");
             }
-        }else if($producto->InsertarProdcuto()>0)
+        }else if($elProducto->InsertarProdcuto()>0)
         {
-            $response->getBody()->write("se guardo el Producto, ". $producto->MostrarDatos());
+            $response->getBody()->write("se guardo el Producto, ". $elProducto->MostrarDatos());
         }
         else{
             $response->getBody()->write("No se guardo nada");
