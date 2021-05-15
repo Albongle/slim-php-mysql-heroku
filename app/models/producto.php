@@ -5,7 +5,7 @@ class Producto implements IMostrarObjeto{
 
     public $idProdcutos;
     public $tipo;
-    public $descripcion;
+    public $nombre;
     public $stock;
     public $precio;
     const TIPO = array("Comida","Bebida");
@@ -14,10 +14,10 @@ class Producto implements IMostrarObjeto{
     {
         
     }
-    public function SetDatos($tipo,$descripcion, $stock,$precio)
+    public function SetDatos($tipo,$nombre, $stock,$precio)
     {
         $this->SetTipo($tipo);
-        $this->descripcion =  $descripcion;
+        $this->nombre =  $nombre;
         $this->stock =  $stock;
         $this->precio =  $precio;
     }
@@ -32,7 +32,7 @@ class Producto implements IMostrarObjeto{
     }
     public function GetObjeto()
     {
-        return array("idProductos"=>$this->idProdcutos,"tipo"=>$this->tipo, "descripcion"=>$this->descripcion, "stock"=>$this->stock,"precio"=>$this->precio);
+        return array("idProductos"=>$this->idProdcutos,"tipo"=>$this->tipo, "nombre"=>$this->nombre, "stock"=>$this->stock,"precio"=>$this->precio);
     }
 
     /**
@@ -53,29 +53,52 @@ class Producto implements IMostrarObjeto{
         return $returnAux;
     }
 
+    public function Equals(Producto $producto)
+    {
+        return ($this->nombre == $producto->nombre) && ($this->tipo == $producto->tipo);
+    }
+
     public static function TraerUnProducto($id)
     {
         $objetoAccesoDato = AccesoDatos::dameUnObjetoAcceso();
-        $consulta =$objetoAccesoDato->RetornarConsulta("select * from prodcutos where idEmpleados = :id");
+        $consulta =$objetoAccesoDato->RetornarConsulta("SELECT * FROM prodcutos WHERE idEmpleados = :id");
         $consulta->bindValue(':id', $id, PDO::PARAM_INT);
         $consulta->execute();
-        return $consulta->fetchAll(PDO::FETCH_CLASS, 'Prodcuto');
+        return $consulta->fetchAll(PDO::FETCH_CLASS, 'Producto');
+    }
+    public static function BuscaUnProductoPorNombreYTipo($nombre, $tipo)
+    {
+        $objetoAccesoDato = AccesoDatos::dameUnObjetoAcceso();
+        $consulta =$objetoAccesoDato->RetornarConsulta("SELECT * FROM prodcutos WHERE nombre = :nombre AND tipo = :tipo");
+        $consulta->bindValue(':nombre', $nombre, PDO::PARAM_STR);
+        $consulta->bindValue(':tipo', $tipo, PDO::PARAM_STR);
+        $consulta->execute();
+        return $consulta->fetchAll(PDO::FETCH_CLASS, 'Producto');
     }
     public static function TraerTodoLosEmpleados()
     {
         $objetoAccesoDato = AccesoDatos::dameUnObjetoAcceso();
         $consulta =$objetoAccesoDato->RetornarConsulta("select * from productos");
         $consulta->execute();
-        return $consulta->fetchAll(PDO::FETCH_CLASS, 'Prodcuto');
+        return $consulta->fetchAll(PDO::FETCH_CLASS, 'Producto');
     }
     public function InsertarProdcuto()
     {
         $objetoAccesoDato = AccesoDatos::dameUnObjetoAcceso();
-        $consulta =$objetoAccesoDato->RetornarConsulta("INSERT INTO productos (tipo,descripcion,stock,precio)VALUES(:tipo,:descripcion,:stock,:precio)");
+        $consulta =$objetoAccesoDato->RetornarConsulta("INSERT INTO productos (tipo,nombre,stock,precio)VALUES(:tipo,:nombre,:stock,:precio)");
         $consulta->bindValue(':tipo', $this->tipo, PDO::PARAM_STR);
-        $consulta->bindValue(':descripcion', $this->descripcion, PDO::PARAM_STR);
+        $consulta->bindValue(':nombre', $this->nombre, PDO::PARAM_STR);
         $consulta->bindValue(':stock', $this->stock, PDO::PARAM_INT);
         $consulta->bindValue(':precio', $this->precio, PDO::PARAM_INT);
+        $consulta->execute();
+        return $objetoAccesoDato->RetornarUltimoIdInsertado();
+    }
+    public static function ActualizaProdcuto(Producto $producto)
+    {
+        $objetoAccesoDato = AccesoDatos::dameUnObjetoAcceso();
+        $consulta =$objetoAccesoDato->RetornarConsulta("UPDATE productos SET stock = :stock WHERE idProdcutos = :id");
+        $consulta->bindValue(':stock', $producto->stock, PDO::PARAM_INT);
+        $consulta->bindValue(':id', $producto->idProdcutos, PDO::PARAM_INT);
         $consulta->execute();
         return $objetoAccesoDato->RetornarUltimoIdInsertado();
     }

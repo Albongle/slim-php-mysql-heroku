@@ -16,14 +16,28 @@ class ProductosApi extends Producto implements IApiUsable{
     {
         $ArrayDeParametros = $request->getParsedBody();
         $producto =  new Producto();
-        $producto->SetDatos($ArrayDeParametros['tipo'],$ArrayDeParametros['descripcion'],$ArrayDeParametros['stock'],$ArrayDeParametros['precio']);
-        if($producto->InsertarProdcuto()>0)
+        $producto->SetDatos($ArrayDeParametros['tipo'],$ArrayDeParametros['nombre'],$ArrayDeParametros['stock'],$ArrayDeParametros['precio']);
+        $productoAux = Producto::BuscaUnProductoPorNombreYTipo($ArrayDeParametros['nombre'],$ArrayDeParametros['tipo']);
+        
+        if($producto->Equals($productoAux))
+        {
+            if(Producto::ActualizaProdcuto($producto)>0){
+                $response->getBody()->write("se Actulizo el stock del Producto, ". $producto->MostrarDatos());
+            }
+            else
+            {
+                $response->getBody()->write("Prodcuto existente pero no se hizo nada");
+            }
+        }else if($producto->InsertarProdcuto()>0)
         {
             $response->getBody()->write("se guardo el Producto, ". $producto->MostrarDatos());
         }
         else{
             $response->getBody()->write("No se guardo nada");
         }
+
+        
+
         return $response;
     }
 
@@ -31,7 +45,7 @@ class ProductosApi extends Producto implements IApiUsable{
     {
         $id=$args['id'];
     	$elProdcuto=Producto::TraerUnProducto($id);
-        $jsonProdcuto = json_encode(array("Prdocuto" => $elProdcuto));
+        $jsonProdcuto = json_encode(array("Producto" => $elProdcuto));
         $response->getBody()->write($jsonProdcuto);
     	return $response;
 

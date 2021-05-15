@@ -69,7 +69,7 @@ class Empleado extends Persona implements IMostrarObjeto
     public static function TraerUnEmpleado($id)
     {
         $objetoAccesoDato = AccesoDatos::dameUnObjetoAcceso();
-        $consulta =$objetoAccesoDato->RetornarConsulta("select * from empleados where idEmpleados = :id");
+        $consulta =$objetoAccesoDato->RetornarConsulta("SELECT * FROM empleados WHERE idEmpleados = :id");
         $consulta->bindValue(':id', $id, PDO::PARAM_INT);
         $consulta->execute();
         return $consulta->fetchAll(PDO::FETCH_CLASS, 'Empleado');
@@ -77,7 +77,7 @@ class Empleado extends Persona implements IMostrarObjeto
     public static function TraerTodoLosEmpleados()
     {
         $objetoAccesoDato = AccesoDatos::dameUnObjetoAcceso();
-        $consulta =$objetoAccesoDato->RetornarConsulta("select * from empleados");
+        $consulta =$objetoAccesoDato->RetornarConsulta("SELECT * FROM empleados");
         $consulta->execute();
         return $consulta->fetchAll(PDO::FETCH_CLASS, 'Empleado');
     }
