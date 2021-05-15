@@ -30,3 +30,6 @@ $app->group('/empleados', function (RouteCollectorProxy $group) {
 });
 
 $app->run();
+
+
+?>
