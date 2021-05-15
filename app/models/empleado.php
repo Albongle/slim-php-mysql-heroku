@@ -84,7 +84,6 @@ class Empleado extends Persona
         $consulta->bindValue(':funcion', $this->funcion, PDO::PARAM_STR);
         $consulta->bindValue(':fechaAlta', $this->fechaAlta, PDO::PARAM_STR);
         $consulta->bindValue(':estado', $this->horaIngreso, PDO::PARAM_STR);
-
         $consulta->execute();
         return $objetoAccesoDato->RetornarUltimoIdInsertado();
     }
