@@ -20,7 +20,7 @@ class EmpleadoApi extends Empleado implements IApiUsable{
         $empleado->SetDatos($ArrayDeParametros['nombre'],$ArrayDeParametros['apellido'],$ArrayDeParametros['funcion'],date("Y/m/d"),$ArrayDeParametros['estado']);
         if($empleado->InsertarEmpleado()>0)
         {
-            $response->getBody()->write("se guardo el Empleado", $empleado->MostrarDatos());
+            $response->getBody()->write("se guardo el Empleado: ". $empleado->MostrarDatos());
         }
         else{
             $response->getBody()->write("No se guardo nada");
