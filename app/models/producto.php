@@ -53,9 +53,27 @@ class Producto implements IMostrarObjeto{
         return $returnAux;
     }
 
+
     public function Equals(Producto $producto)
     {
+
         return ($this->nombre == $producto->nombre) && ($this->tipo == $producto->tipo);
+    }
+    public Function ValidarProducto($array)
+    {
+        $returnAux = false;
+        if(isset($array) && is_array($array))
+        {
+            foreach ($array as $key=> $value) 
+            {
+                if($this->Equals($value))
+                {
+                    $returnAux = true;
+                    break;  
+                }
+            }
+        }
+        return $returnAux;
     }
 
     public static function TraerUnProducto($id)

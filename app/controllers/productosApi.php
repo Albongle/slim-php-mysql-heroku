@@ -19,7 +19,7 @@ class ProductosApi extends Producto implements IApiUsable{
         $producto->SetDatos($ArrayDeParametros['tipo'],$ArrayDeParametros['nombre'],$ArrayDeParametros['stock'],$ArrayDeParametros['precio']);
         $productoAux = Producto::BuscaUnProductoPorNombreYTipo($ArrayDeParametros['nombre'],$ArrayDeParametros['tipo']);
         
-        if($producto->Equals($productoAux))
+        if($producto->ValidarProducto($productoAux))
         {
             if(Producto::ActualizaProdcuto($producto)>0){
                 $response->getBody()->write("se Actulizo el stock del Producto, ". $producto->MostrarDatos());
