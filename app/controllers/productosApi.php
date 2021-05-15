@@ -22,7 +22,7 @@ class ProductosApi extends Producto implements IApiUsable{
         if($elProducto->ValidarProducto($productoAux))
         {
             if(Producto::ActualizaStockProdcuto($productoAux[0]->idProductos,$elProducto->stock)>0){
-                $response->getBody()->write("se Actulizo el stock del Producto, ". $elProducto->MostrarDatos());
+                $response->getBody()->write("se Actulizo el stock del Producto, ". $productoAux[0]->MostrarDatos()."Nuevo stock ".$elProducto->stock);
             }
             else
             {
