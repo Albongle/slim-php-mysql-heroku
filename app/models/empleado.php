@@ -71,7 +71,7 @@ class Empleado extends Persona
     public static function TraerUnEmpleado($id)
     {
         $objetoAccesoDato = AccesoDatos::dameUnObjetoAcceso();
-        $consulta =$objetoAccesoDato->RetornarConsulta("select * from empleados where id = :id");
+        $consulta =$objetoAccesoDato->RetornarConsulta("select * from empleados where idEmpleados = :id");
         $consulta->bindValue(':id', $id, PDO::PARAM_INT);
         $consulta->execute();
         return $consulta->fetchAll(PDO::FETCH_CLASS, 'Empleado');
