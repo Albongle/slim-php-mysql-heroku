@@ -111,7 +111,7 @@ class Producto implements IMostrarObjeto{
         $consulta->execute();
         return $objetoAccesoDato->RetornarUltimoIdInsertado();
     }
-    public static function ActualizaProdcuto($id, $stock)
+    public static function ActualizaStockProdcuto($id, $stock)
     {
         $objetoAccesoDato = AccesoDatos::dameUnObjetoAcceso();
         $consulta =$objetoAccesoDato->RetornarConsulta("UPDATE productos SET stock = :stock WHERE idProductos = :id");
