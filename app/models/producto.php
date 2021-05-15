@@ -1,6 +1,6 @@
 <?php
 require_once "./db/AccesoDatos.php";
-require_once "./interfaces/IMostrarObjeto.php";
+require_once "./interfaces/IMostraObjeto.php";
 class Producto implements IMostrarObjeto{
 
     public $idProdcutos;
