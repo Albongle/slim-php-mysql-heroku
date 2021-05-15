@@ -4,8 +4,9 @@
 
 require_once "./models/persona.php";
 require_once "./db/AccesoDatos.php";
+require_once "./interfaces/IMostrarObjeto.php";
 
-class Empleado extends Persona
+class Empleado extends Persona implements IMostrarObjeto
 {
     public $idEmpleados;
     public $funcion;
@@ -46,7 +47,7 @@ class Empleado extends Persona
             throw new Exception("Estado del empleado no permitida, solo se permite: Activo, Suspendido");
         }
     }
-    private function GetObjeto()
+    public function GetObjeto()
     {
         return array("idEmpleados"=>$this->idEmpleados,"nombre"=>$this->nombre,"apellido"=>$this->apellido,"funcion"=>$this->funcion,"fechaAlta"=>$this->fechaAlta,"estado"=>$this->estado);
     }

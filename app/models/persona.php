@@ -30,7 +30,6 @@ abstract class Persona{
             throw new Exception("Apellido erroneo");
         }
     }
-
     private function ValidaNombreApellido($value)
     {
         $returnAux= false;
@@ -40,8 +39,6 @@ abstract class Persona{
         }
         return $returnAux;
     }
-
-
 }
 
 ?>
