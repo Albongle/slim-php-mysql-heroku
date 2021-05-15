@@ -1,4 +1,7 @@
 <?php
+
+
+
 require_once "./models/persona.php";
 require_once "./db/AccesoDatos.php";
 
@@ -7,35 +10,45 @@ class Empleado extends Persona
     public $idEmpleados;
     public $funcion;
     public $fechaAlta;
-    public $horaIngreso;
-    public $horaEgreso;
-    public $fechaBaja;
+    public $estado;
     const FUNCIONES = array("Bartender","Mozo","Cervecero","Cocinero");
+    const ESTADO = array("Activo","Suspendido");
 
     public function __construct()
     {
     }
-    public function SetDatos($nombre, $apellido, $funcion, $fechaAlta, $horaIngreso, $horaEgreso)
+    public function SetDatos($nombre, $apellido, $funcion, $fechaAlta, $estado)
     {
         parent::SetNombre($nombre);
         parent::SetApellido($apellido);
         $this->SetFuncion($funcion);
         $this->fechaAlta = $fechaAlta;
-        $this->horaIngreso = $horaIngreso;
-        $this->horaEgreso = $horaEgreso;
+        $this->SetEstado($estado);
+
     }
+
 
     private function SetFuncion($value)
     {
         if (isset($value) && is_string($value) && in_array($value, self::FUNCIONES)) {
             $this->funcion =  $value;
         } else {
-            throw new Exception("Funcion del empleado no permitida");
+            
+            throw new Exception("Funcion del empleado no permitida, solo se permite: Bartender, Mozo, Cervecero, Cocinero");
+        }
+    }
+    private function SetEstado($value)
+    {
+        if (isset($value) && is_string($value) && in_array($value, self::ESTADO)) {
+            $this->estado =  $value;
+        } else {
+            
+            throw new Exception("Estado del empleado no permitida, solo se permite: Activo, Suspendido");
         }
     }
     private function GetObjeto()
     {
-        return array("idEmpleados"=>$this->idEmpleados,"nombre"=>$this->nombre,"apellido"=>$this->apellido,"funcion"=>$this->funcion,"fechaAlta"=>$this->fechaAlta,"horaIngreso"=>$this->horaIngreso,"horaEgreso"=>$this->horaEgreso,"fechaBaja"=>$this->fechaBaja);
+        return array("idEmpleados"=>$this->idEmpleados,"nombre"=>$this->nombre,"apellido"=>$this->apellido,"funcion"=>$this->funcion,"fechaAlta"=>$this->fechaAlta,"estado"=>$this->estado);
     }
 
     /**
@@ -65,13 +78,13 @@ class Empleado extends Persona
     public function InsertarEmpleado()
     {
         $objetoAccesoDato = AccesoDatos::dameUnObjetoAcceso();
-        $consulta =$objetoAccesoDato->RetornarConsulta("INSERT INTO empleados (nombre,apellido,funcion,fechaAlta,horaIngreso,horaEgreso)VALUES(:nombre,:apellido,:funcion,:fechaAlta,:horaIngreso,:horaEgreso)");
+        $consulta =$objetoAccesoDato->RetornarConsulta("INSERT INTO empleados (nombre,apellido,funcion,fechaAlta,estado)VALUES(:nombre,:apellido,:funcion,:fechaAlta,:estado)");
         $consulta->bindValue(':nombre', $this->nombre, PDO::PARAM_STR);
         $consulta->bindValue(':apellido', $this->apellido, PDO::PARAM_STR);
         $consulta->bindValue(':funcion', $this->funcion, PDO::PARAM_STR);
         $consulta->bindValue(':fechaAlta', $this->fechaAlta, PDO::PARAM_STR);
-        $consulta->bindValue(':horaIngreso', $this->horaIngreso, PDO::PARAM_STR);
-        $consulta->bindValue(':horaEgreso', $this->horaEgreso, PDO::PARAM_STR);
+        $consulta->bindValue(':estado', $this->horaIngreso, PDO::PARAM_STR);
+
         $consulta->execute();
         return $objetoAccesoDato->RetornarUltimoIdInsertado();
     }

@@ -17,7 +17,7 @@ class EmpleadoApi extends Empleado implements IApiUsable{
     {
         $ArrayDeParametros = $request->getParsedBody();
         $empleado =  new Empleado();
-        $empleado->SetDatos($ArrayDeParametros['nombre'],$ArrayDeParametros['apellido'],$ArrayDeParametros['funcion'],date("Y/m/d"),$ArrayDeParametros['horaIngreso'],$ArrayDeParametros['horaEgreso']);
+        $empleado->SetDatos($ArrayDeParametros['nombre'],$ArrayDeParametros['apellido'],$ArrayDeParametros['funcion'],date("Y/m/d"),$ArrayDeParametros['estado']);
         if($empleado->InsertarEmpleado()>0)
         {
             $response->getBody()->write("se guardo el Empleado");
