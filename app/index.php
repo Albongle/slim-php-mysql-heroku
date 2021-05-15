@@ -28,8 +28,8 @@ $app->group('/lacomanda', function (RouteCollectorProxy $group) {
     $group->post('/empleados', \EmpleadoApi::class . ':CargarUno');
     $group->get('/empleados', \EmpleadoApi::class . ':TraerTodos');
     $group->get('/empleados/{id}', \EmpleadoApi::class. ':TraerUno');
-    $group->post('/productos', \EmpleadoApi::class . ':CargarUno');
-    $group->get('/productos', \EmpleadoApi::class . ':TraerTodos');
+    $group->post('/productos', \ProductosApi::class . ':CargarUno');
+    $group->get('/productos', \ProductosApi::class . ':TraerTodos');
 });
 
 
