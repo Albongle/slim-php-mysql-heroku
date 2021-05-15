@@ -24,7 +24,7 @@ class Producto implements IMostrarObjeto{
     private function SetTipo($value)
     {
         if (isset($value) && is_string($value) && in_array($value, self::TIPO)) {
-            $this->funcion =  $value;
+            $this->tipo =  $value;
         } else {
             
             throw new Exception("Funcion del producto no permitida, solo se permite: Comida o Bebida");
