@@ -93,7 +93,7 @@ class Producto implements IMostrarObjeto{
         $consulta->execute();
         return $consulta->fetchAll(PDO::FETCH_CLASS, 'Producto');
     }
-    public static function TraerTodoLosEmpleados()
+    public static function TraerTodoLosProductos()
     {
         $objetoAccesoDato = AccesoDatos::dameUnObjetoAcceso();
         $consulta =$objetoAccesoDato->RetornarConsulta("select * from productos");
@@ -118,7 +118,7 @@ class Producto implements IMostrarObjeto{
         $consulta->bindValue(':stock', $stock, PDO::PARAM_INT);
         $consulta->bindValue(':id', $id, PDO::PARAM_INT);
         $consulta->execute();
-        return $objetoAccesoDato->RetornarUltimoIdInsertado();
+        return true;
     }
 
 }

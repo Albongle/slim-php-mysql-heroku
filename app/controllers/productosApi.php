@@ -26,7 +26,7 @@ class ProductosApi extends Producto implements IApiUsable{
             }
             else
             {
-                $response->getBody()->write("Prodcuto existente pero no se hizo nada");
+                $response->getBody()->write("Producto existente pero no se hizo nada");
             }
         }else if($elProducto->InsertarProdcuto()>0)
         {
