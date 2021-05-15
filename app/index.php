@@ -27,6 +27,7 @@ $app->addErrorMiddleware(true, true, true);
 $app->group('/lacomanda', function (RouteCollectorProxy $group) {
     $group->post('/', \EmpleadoApi::class . ':CargarUno');
     $group->get('/empleados', \EmpleadoApi::class . ':TraerTodos');
+    $group->get('/empleados/{id}', \EmpleadoApi::class. ':traerUno');
 });
 
 $app->run();

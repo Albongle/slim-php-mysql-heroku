@@ -27,6 +27,15 @@ class EmpleadoApi extends Empleado implements IApiUsable{
         }
         return $response;
     }
+
+    public function TraerUno($request, $response, $args)
+    {
+        $id=$args['id'];
+    	$elEmpleado=Empleado::TraerUnEmpleado($id);
+        $response->getBody()->write($elEmpleado);
+    	return $response;
+
+    }
 }
 
 
