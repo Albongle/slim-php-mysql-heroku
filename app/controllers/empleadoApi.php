@@ -32,7 +32,8 @@ class EmpleadoApi extends Empleado implements IApiUsable{
     {
         $id=$args['id'];
     	$elEmpleado=Empleado::TraerUnEmpleado($id);
-        $response->getBody()->write($elEmpleado);
+        $jsonEmpleado = json_encode(array("empleado" => $elEmpleado));
+        $response->getBody()->write($jsonEmpleado);
     	return $response;
 
     }
