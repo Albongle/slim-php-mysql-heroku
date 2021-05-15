@@ -1,6 +1,6 @@
 <?php
 require_once "./models/empleado.php";
-require_once "./interfaces/IApiUsable.php";
+
 class EmpleadoApi extends Empleado implements IApiUsable{
 
 

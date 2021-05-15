@@ -1,10 +1,7 @@
 <?php
-
-
-
 require_once "./models/persona.php";
 require_once "./db/AccesoDatos.php";
-require_once "./interfaces/IMostrarObjeto.php";
+require_once "./interfaces/IMostraObjeto.php";
 
 class Empleado extends Persona implements IMostrarObjeto
 {
