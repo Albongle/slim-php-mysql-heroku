@@ -76,8 +76,8 @@ class Pedido implements IMostrarObjeto
     {
         $objetoAccesoDato = AccesoDatos::dameUnObjetoAcceso();
         $consulta =$objetoAccesoDato->RetornarConsulta("INSERT INTO pedidos (idProducto,idMesa,horaInicio,horaEstimada,cantidad,estado)VALUES(:idProducto,:idMesa,:horaInicio,:horaEstimada,:cantidad,:estado)");
-        $consulta->bindValue(':idProducto', $this->tipo, PDO::PARAM_STR);
-        $consulta->bindValue(':idMesa', $this->nombre, PDO::PARAM_STR);
+        $consulta->bindValue(':idProducto', $this->idProducto, PDO::PARAM_STR);
+        $consulta->bindValue(':idMesa', $this->idMesa, PDO::PARAM_STR);
         $consulta->bindValue(':horaInicio', $this->horaInicio, PDO::PARAM_STR);
         $consulta->bindValue(':horaEstimada', $this->horaEstimada, PDO::PARAM_STR);
         $consulta->bindValue(':cantidad', $this->cantidad, PDO::PARAM_INT);
@@ -99,7 +99,7 @@ class Pedido implements IMostrarObjeto
     public static function TraerTodoLosPedidos()
     {
         $objetoAccesoDato = AccesoDatos::dameUnObjetoAcceso();
-        $consulta =$objetoAccesoDato->RetornarConsulta("SELECT * from pedidos");
+        $consulta =$objetoAccesoDato->RetornarConsulta("SELECT * FROM pedidos");
         $consulta->execute();
         return $consulta->fetchAll(PDO::FETCH_CLASS, 'Pedido');
     }
