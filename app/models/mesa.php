@@ -6,6 +6,8 @@ require_once "./interfaces/IMostraObjeto.php";
 
     public $idMesas;
     public $nombre;
+    public $estado;
+    const ESTADO =  array("Cliente_Esperando","Cliente_Comiendo","Cliente_Pagando","Cerrada");
 
     public function __construct()
     {
@@ -16,11 +18,21 @@ require_once "./interfaces/IMostraObjeto.php";
         if(isset($value) && is_string($value))
         {
             $this->nombre =  $value;
+            $this->SetEstado("Cerrada");
+        }
+    }
+    public function SetEstado($value)
+    {
+        if (isset($value) && is_string($value) && in_array($value, self::ESTADO)) {
+            $this->estado =  $value;
+        } else {
+            
+            throw new Exception("Estado de mesa no permitido, solo se permite: Cliente_Esperando, Cliente_Comiendo ,Cliente_Pagando ,Cerrada");
         }
     }
     public function GetObjeto()
     {
-        return array("nombre"=>$this->nombre);
+        return array("nombre"=>$this->nombre, "estado"=>$this->estado);
     }
 
     /**
@@ -43,8 +55,9 @@ require_once "./interfaces/IMostraObjeto.php";
     public function InsertarMesa()
     {
         $objetoAccesoDato = AccesoDatos::dameUnObjetoAcceso();
-        $consulta =$objetoAccesoDato->RetornarConsulta("INSERT INTO mesas (nombre)VALUES(:nombre)");
+        $consulta =$objetoAccesoDato->RetornarConsulta("INSERT INTO mesas (nombre, estado)VALUES(:nombre,:estado)");
         $consulta->bindValue(':nombre', $this->nombre, PDO::PARAM_STR);
+        $consulta->bindValue(':estado', $this->estado, PDO::PARAM_STR);
         $consulta->execute();
         return $objetoAccesoDato->RetornarUltimoIdInsertado();
     }
