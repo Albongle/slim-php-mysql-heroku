@@ -1,13 +1,13 @@
 <?php
 require_once "./models/empleado.php";
 require_once "./interfaces/IApiUsable.php";
-class EmpleadoApi extends Empleado implements IApiUsable{
+class EmpleadosApi extends Empleado implements IApiUsable{
 
 
     public function TraerTodos($request, $response, $args)
     {
-        $listraEmpleados = Empleado::TraerTodoLosEmpleados();
-        $jsonEmpleado = json_encode(array("listaEmpleados" => $listraEmpleados));
+        $listaEmpleados = Empleado::TraerTodoLosEmpleados();
+        $jsonEmpleado = json_encode(array("listaEmpleados" => $listaEmpleados));
         $response->getBody()->write($jsonEmpleado);
         return $response
           ->withHeader('Content-Type', 'application/json');

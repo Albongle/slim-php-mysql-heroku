@@ -7,8 +7,8 @@ class PedidosApi extends Pedido implements IApiUsable{
     
     public function TraerTodos($request, $response, $args)
     {
-        $listraPedidos = Pedido::TraerTodoLosPedidos();
-        $jsonPedidos = json_encode(array("listaEmpleados" => $listraPedidos));
+        $listaPedidos = Pedido::TraerTodoLosPedidos();
+        $jsonPedidos = json_encode(array("listaEmpleados" => $listaPedidos));
         $response->getBody()->write($jsonPedidos);
         return $response
           ->withHeader('Content-Type', 'application/json');

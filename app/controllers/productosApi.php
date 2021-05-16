@@ -5,8 +5,8 @@ class ProductosApi extends Producto implements IApiUsable{
 
     public function TraerTodos($request, $response, $args)
     {
-        $listraProductos = Producto::TraerTodoLosProductos();
-        $jsonProdcuto = json_encode(array("listaProductos" => $listraProductos));
+        $listaProductos = Producto::TraerTodoLosProductos();
+        $jsonProdcuto = json_encode(array("listaProductos" => $listaProductos));
         $response->getBody()->write($jsonProdcuto);
         return $response
           ->withHeader('Content-Type', 'application/json');
