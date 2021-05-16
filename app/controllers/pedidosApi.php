@@ -1,5 +1,5 @@
 <?php
-require_once "./models/pedidos.php";
+require_once "./models/pedido.php";
 require_once "./models/producto.php";
 require_once "./interfaces/IApiUsable.php";
 
