@@ -75,11 +75,13 @@ class Pedido implements IMostrarObjeto
     public function InsertarPedido()
     {
         $objetoAccesoDato = AccesoDatos::dameUnObjetoAcceso();
-        $consulta =$objetoAccesoDato->RetornarConsulta("INSERT INTO pedidos (idProducto,idMesa,horaInicio,horaEstimada,cantidad,estado)VALUES()");
-        $consulta->bindValue(':tipo', $this->tipo, PDO::PARAM_STR);
-        $consulta->bindValue(':nombre', $this->nombre, PDO::PARAM_STR);
-        $consulta->bindValue(':stock', $this->stock, PDO::PARAM_INT);
-        $consulta->bindValue(':precio', $this->precio, PDO::PARAM_INT);
+        $consulta =$objetoAccesoDato->RetornarConsulta("INSERT INTO pedidos (idProducto,idMesa,horaInicio,horaEstimada,cantidad,estado)VALUES(:idProducto,:idMesa,:horaInicio,:horaEstimada,:cantidad,:estado)");
+        $consulta->bindValue(':idProducto', $this->tipo, PDO::PARAM_STR);
+        $consulta->bindValue(':idMesa', $this->nombre, PDO::PARAM_STR);
+        $consulta->bindValue(':horaInicio', $this->horaInicio, PDO::PARAM_STR);
+        $consulta->bindValue(':horaEstimada', $this->horaEstimada, PDO::PARAM_STR);
+        $consulta->bindValue(':cantidad', $this->cantidad, PDO::PARAM_INT);
+        $consulta->bindValue(':estado', $this->estado, PDO::PARAM_STR);
         $consulta->execute();
         return $objetoAccesoDato->RetornarUltimoIdInsertado();
     }
