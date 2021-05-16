@@ -28,7 +28,7 @@ class Pedido implements IMostrarObjeto
     }
     public function SetHoraInicio($value)
     {
-        if (isset($value) && is_a($value, "DateTime")) {
+        if (isset($value)) {
             if ($value < $this->horaFin || !isset($this->horaFin)) {
                 $this->horaInicio = $value;
             }
@@ -36,7 +36,7 @@ class Pedido implements IMostrarObjeto
     }
     public function SetHoraFin($value)
     {
-        if (isset($value) && is_a($value, "DateTime")) {
+        if (isset($value)) {
             if ($value > $this->horaInicio) {
                 $this->horaFin = $value;
             }
