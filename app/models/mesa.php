@@ -61,6 +61,16 @@ require_once "./interfaces/IMostraObjeto.php";
         $consulta->execute();
         return $objetoAccesoDato->RetornarUltimoIdInsertado();
     }
+    public function ActulizarEstadoMesa($estado)
+    {
+        $objetoAccesoDato = AccesoDatos::dameUnObjetoAcceso();
+        $this->SetEstado($estado);
+        $consulta =$objetoAccesoDato->RetornarConsulta("UPDATE mesas SET estado = :estado WHERE idMesas = :id");
+        $consulta->bindValue(':estado', $this->$estado, PDO::PARAM_STR);
+        $consulta->bindValue(':id', $this->idMesas, PDO::PARAM_INT);
+        $consulta->execute();
+        return true;
+    }
     public static function TraerTodasLasMesas()
     {
         $objetoAccesoDato = AccesoDatos::dameUnObjetoAcceso();
