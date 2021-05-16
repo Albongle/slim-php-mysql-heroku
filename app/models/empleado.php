@@ -46,7 +46,7 @@ class Empleado extends Persona implements IMostrarObjeto
     }
     public function GetObjeto()
     {
-        return array("idEmpleados"=>$this->idEmpleados,"nombre"=>$this->nombre,"apellido"=>$this->apellido,"funcion"=>$this->funcion,"fechaAlta"=>$this->fechaAlta,"estado"=>$this->estado);
+        return array("nombre"=>$this->nombre,"apellido"=>$this->apellido,"funcion"=>$this->funcion,"fechaAlta"=>$this->fechaAlta,"estado"=>$this->estado);
     }
 
     /**

@@ -32,7 +32,7 @@ class Producto implements IMostrarObjeto{
     }
     public function GetObjeto()
     {
-        return array("idProductos"=>$this->idProdcutos,"tipo"=>$this->tipo, "nombre"=>$this->nombre, "stock"=>$this->stock,"precio"=>$this->precio);
+        return array("tipo"=>$this->tipo, "nombre"=>$this->nombre, "stock"=>$this->stock,"precio"=>$this->precio);
     }
 
     /**

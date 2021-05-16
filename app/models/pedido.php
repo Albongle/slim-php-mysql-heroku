@@ -52,7 +52,7 @@ class Pedido implements IMostrarObjeto
     }
     public function GetObjeto()
     {
-        return array("idPedidos"=>$this->idPedidos,"idProducto"=>$this->idProducto,"idMesa"=>$this->idMesa,"cantidad"=>$this->cantidad,"estado"=>$this->estado,"horaInicio"=>$this->horaInicio,"horaEstimada"=>$this->horaEstimada,"horaFin"=>$this->horaFin);
+        return array("idProducto"=>$this->idProducto,"idMesa"=>$this->idMesa,"cantidad"=>$this->cantidad,"estado"=>$this->estado,"horaInicio"=>$this->horaInicio,"horaEstimada"=>$this->horaEstimada,"horaFin"=>$this->horaFin);
     }
 
     /**
