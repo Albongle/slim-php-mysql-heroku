@@ -22,7 +22,7 @@ class Pedido implements IMostrarObjeto
         $this->idProducto =  $idProducto;
         $this->idMesa = $idMesa;
         $this->cantidad = $cantidad;
-        $this->SetHoraInicio(date("HH:mm:ss"));
+        $this->SetHoraInicio(date("H:m:s",timestamp:time()));
         $this->horaEstimada =  $horaEstimada;
         $this->SetEstado("Iniciado");
     }
@@ -91,7 +91,7 @@ class Pedido implements IMostrarObjeto
         $this->SetEstado($estado);
         $consulta =$objetoAccesoDato->RetornarConsulta("UPDATE pedidos SET estado = :estado, horaFin = :horaFin WHERE idPedidos = :id");
         $consulta->bindValue(':estado', $this->$estado, PDO::PARAM_STR);
-        $consulta->bindValue(':horaFin', date("HH:mm:ss"), PDO::PARAM_STR);
+        $consulta->bindValue(':horaFin', date("H:m:s",timestamp:time()), PDO::PARAM_STR);
         $consulta->bindValue(':id', $this->idPedidos, PDO::PARAM_INT);
         $consulta->execute();
         return true;
