@@ -15,9 +15,9 @@ class EmpleadoApi extends Empleado implements IApiUsable{
 
     public function CargarUno($request, $response, $args)
     {
-        $ArrayDeParametros = $request->getParsedBody();
+        $arrayDeParametros = $request->getParsedBody();
         $empleado =  new Empleado();
-        $empleado->SetDatos($ArrayDeParametros['nombre'],$ArrayDeParametros['apellido'],$ArrayDeParametros['funcion'],date("Y/m/d"),$ArrayDeParametros['estado']);
+        $empleado->SetDatos($arrayDeParametros['nombre'],$arrayDeParametros['apellido'],$arrayDeParametros['funcion'],date("Y/m/d"),$arrayDeParametros['estado']);
         if($empleado->InsertarEmpleado()>0)
         {
             $response->getBody()->write("se guardo el Empleado, ". $empleado->MostrarDatos());
@@ -32,7 +32,7 @@ class EmpleadoApi extends Empleado implements IApiUsable{
     {
         $id=$args['id'];
     	$elEmpleado=Empleado::TraerUnEmpleado($id);
-        $jsonEmpleado = json_encode(array("empleado" => $elEmpleado));
+        $jsonEmpleado = json_encode(array("Empleado" => $elEmpleado));
         $response->getBody()->write($jsonEmpleado);
     	return $response;
 

@@ -16,6 +16,7 @@ require_once "./db/AccesoDatos.php";
 
 require_once "./controllers/empleadoApi.php";
 require_once "./controllers/productosApi.php";
+require_once "./controllers/pedidosApi.php";
 
 // Instantiate App
 $app = AppFactory::create();
@@ -31,6 +32,10 @@ $app->group('/lacomanda', function (RouteCollectorProxy $group) {
     $group->get('/empleados/{id}', \EmpleadoApi::class. ':TraerUno');
     $group->post('/productos', \ProductosApi::class . ':CargarUno');
     $group->get('/productos', \ProductosApi::class . ':TraerTodos');
+    $group->get('/productos/{id}', \ProductosApi::class. ':TraerUno');
+    $group->post('/pedidos', \PedidosApi::class . ':CargarUno');
+    $group->get('/pedidos', \PedidosApi::class . ':TraerTodos');
+    $group->get('/pedidos/{id}', \PedidosApi::class. ':TraerUno');
 });
 
 

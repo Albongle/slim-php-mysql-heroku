@@ -79,7 +79,7 @@ class Producto implements IMostrarObjeto{
     public static function TraerUnProducto($id)
     {
         $objetoAccesoDato = AccesoDatos::dameUnObjetoAcceso();
-        $consulta =$objetoAccesoDato->RetornarConsulta("SELECT * FROM prodcutos WHERE idEmpleados = :id");
+        $consulta =$objetoAccesoDato->RetornarConsulta("SELECT * FROM productos WHERE idProductos = :id");
         $consulta->bindValue(':id', $id, PDO::PARAM_INT);
         $consulta->execute();
         return $consulta->fetchAll(PDO::FETCH_CLASS, 'Producto');
@@ -96,7 +96,7 @@ class Producto implements IMostrarObjeto{
     public static function TraerTodoLosProductos()
     {
         $objetoAccesoDato = AccesoDatos::dameUnObjetoAcceso();
-        $consulta =$objetoAccesoDato->RetornarConsulta("select * from productos");
+        $consulta =$objetoAccesoDato->RetornarConsulta("SELECT * FROM productos");
         $consulta->execute();
         return $consulta->fetchAll(PDO::FETCH_CLASS, 'Producto');
     }

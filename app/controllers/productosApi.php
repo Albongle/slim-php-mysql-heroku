@@ -14,10 +14,10 @@ class ProductosApi extends Producto implements IApiUsable{
 
     public function CargarUno($request, $response, $args)
     {
-        $ArrayDeParametros = $request->getParsedBody();
+        $arrayDeParametros = $request->getParsedBody();
         $elProducto =  new Producto();
-        $elProducto->SetDatos($ArrayDeParametros['tipo'],$ArrayDeParametros['nombre'],$ArrayDeParametros['stock'],$ArrayDeParametros['precio']);
-        $productoAux = Producto::BuscaUnProductoPorNombreYTipo($ArrayDeParametros['nombre'],$ArrayDeParametros['tipo']);
+        $elProducto->SetDatos($arrayDeParametros['tipo'],$arrayDeParametros['nombre'],$arrayDeParametros['stock'],$arrayDeParametros['precio']);
+        $productoAux = Producto::BuscaUnProductoPorNombreYTipo($arrayDeParametros['nombre'],$arrayDeParametros['tipo']);
         
         if($elProducto->ValidarProducto($productoAux))
         {
