@@ -19,7 +19,7 @@ class PedidosApi extends Pedido implements IApiUsable{
         $arrayDeParametros = $request->getParsedBody();
         $producto =  Producto::BuscaUnProductoPorNombreYTipo($arrayDeParametros['nombreProducto'],$arrayDeParametros['tipoProducto']);
         $pedido =  new Pedido();
-        $pedido->SetDatos($producto[0]->idProducto,$arrayDeParametros['idMesa'],$arrayDeParametros['horaEstimada'],$arrayDeParametros['cantidad']);
+        $pedido->SetDatos($producto[0]->idProductos,$arrayDeParametros['idMesa'],$arrayDeParametros['horaEstimada'],$arrayDeParametros['cantidad']);
         if($pedido->InsertarPedido()>0)
         {
             $response->getBody()->write("se guardo el Pedido, ". $pedido->MostrarDatos());
