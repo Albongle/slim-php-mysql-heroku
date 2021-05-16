@@ -3,7 +3,7 @@ require_once "./models/pedido.php";
 require_once "./models/producto.php";
 require_once "./interfaces/IApiUsable.php";
 
-class PedidoApi extends Pedido implements IApiUsable{
+class PedidosApi extends Pedido implements IApiUsable{
     
     public function TraerTodos($request, $response, $args)
     {
