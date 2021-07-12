@@ -1,8 +1,8 @@
 <?php
-require_once "./models/Mesa.php";
-require_once "./models/Pedido.php";
-require_once "./interfaces/IApiUsable.php";
-require_once "./models/AutentificadorJWT.php";
+require_once "./app/models/Mesa.php";
+require_once "./app/models/Pedido.php";
+require_once "./app/interfaces/IApiUsable.php";
+require_once "./app/models/AutentificadorJWT.php";
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
