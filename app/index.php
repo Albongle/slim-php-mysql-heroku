@@ -12,7 +12,7 @@ use Slim\Exception\NotFoundException;
 use Illuminate\Database\Capsule\Manager as Capsule;
 
 
-require_once "./vendor/autoload.php";
+require_once "../vendor/autoload.php";
 require_once "./middlewares/middleware.php";
 require_once "./controllers/UsuarioController.php";
 require_once "./controllers/ProductoController.php";
