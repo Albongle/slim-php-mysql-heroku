@@ -1,11 +1,11 @@
 <?php
-require_once "../models/Usuario.php";
-require_once "../models/Pedido.php";
-require_once "..models/Mesa.php";
-require_once "../models/Producto.php";
-require_once "../middlewares/middleware.php";
-require_once "../interfaces/IApiUsable.php";
-require_once "../models/AutentificadorJWT.php";
+require_once "./models/Usuario.php";
+require_once "./models/Pedido.php";
+require_once "./models/Mesa.php";
+require_once "./models/Producto.php";
+require_once "./middlewares/middleware.php";
+require_once "./interfaces/IApiUsable.php";
+require_once "./models/AutentificadorJWT.php";
 
 
 use Psr\Http\Message\ResponseInterface as Response;
