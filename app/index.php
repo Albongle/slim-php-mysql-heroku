@@ -4,44 +4,104 @@ ini_set('display_errors', 1);
 
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
-use Psr\Http\Server\RequestHandlerInterface;
+use Psr\Http\Server\RequestHandlerInterface as RequestHandler;
 use Slim\Factory\AppFactory;
 use Slim\Routing\RouteCollectorProxy;
 use Slim\Routing\RouteContext;
+use Slim\Exception\NotFoundException;
+use Illuminate\Database\Capsule\Manager as Capsule;
 
-require __DIR__ . '/../vendor/autoload.php';
+require __DIR__ . './vendor/autoload.php';
+require_once "./middlewares/middleware.php";
+require_once "./controllers/UsuarioController.php";
+require_once "./controllers/ProductoController.php";
+require_once "./controllers/MesaController.php";
+require_once "./controllers/PedidoController.php";
 
-require_once "./db/AccesoDatos.php";
-// require_once './middlewares/Logger.php';
+date_default_timezone_set('America/Argentina/Buenos_Aires');
 
-require_once "./controllers/empleadosApi.php";
-require_once "./controllers/productosApi.php";
-require_once "./controllers/pedidosApi.php";
-require_once "./controllers/mesasApi.php";
+
+$dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
+$dotenv->safeLoad();
+
+
 
 // Instantiate App
 $app = AppFactory::create();
-
+$app->setBasePath("/LaComanda"); 
+$app->addBodyParsingMiddleware();
+$app->addRoutingMiddleware();
 // Add error middleware
 $app->addErrorMiddleware(true, true, true);
 
 
-// Routes
-$app->group('/lacomanda', function (RouteCollectorProxy $group) {
-    $group->post('/empleados', \EmpleadosApi::class . ':CargarUno');
-    $group->get('/empleados', \EmpleadosApi::class . ':TraerTodos');
-    $group->get('/empleados/{id}', \EmpleadosApi::class. ':TraerUno');
-    $group->post('/productos', \ProductosApi::class . ':CargarUno');
-    $group->get('/productos', \ProductosApi::class . ':TraerTodos');
-    $group->get('/productos/{id}', \ProductosApi::class. ':TraerUno');
-    $group->post('/pedidos', \PedidosApi::class . ':CargarUno');
-    $group->get('/pedidos', \PedidosApi::class . ':TraerTodos');
-    $group->get('/pedidos/{id}', \PedidosApi::class. ':TraerUno');
-    $group->post('/mesas', \MesasApi::class . ':CargarUno');
-    $group->get('/mesas', \MesasApi::class . ':TraerTodos');
+// Eloquent
+$capsule = new Capsule;
+$capsule->addConnection([
+    'driver'    => 'mysql',
+    'host'      => $_ENV['MYSQL_HOST'],
+    'database'  => $_ENV['MYSQL_DB'],
+    'username'  => $_ENV['MYSQL_USER'],
+    'password'  => $_ENV['MYSQL_PASS'],
+    'charset'   => 'utf8',
+    'collation' => 'utf8_unicode_ci',
+    'prefix'    => '',
+]);
+
+$capsule->setAsGlobal();
+$capsule->bootEloquent();
+
+
+// login
+$app->group('/login', function (RouteCollectorProxy $group) {
+  $group->post('[/]', \UsuarioController::class . ':Login');
+
+
 });
 
+// usuarios
+$app->group('/usuarios', function (RouteCollectorProxy $group) {
+  $group->post('[/]', \UsuarioController::class . ':CargarUno')->add(new Middleware("Admin"));
+  $group->get('[/]', \UsuarioController::class . ':TraerTodos');
+  $group->get('/buscar/', \UsuarioController::class. ':TraerUno')->add(new Middleware("Admin"));
+  $group->put('[/]', \UsuarioController::class. ':ModificarUno')->add(new Middleware("Admin"));
+  $group->delete('[/]', \UsuarioController::class. ':BorrarUno')->add(new Middleware("Admin"));
 
+});
+
+//productos
+$app->group('/productos', function (RouteCollectorProxy $group) {
+  $group->post('[/]', \ProductoController::class . ':CargarUno')->add(new Middleware("Socio"));
+  $group->get('[/]', \ProductoController::class . ':TraerTodos');
+  $group->get('/buscar/', \ProductoController::class. ':TraerUno');
+  $group->put('[/]', \ProductoController::class. ':ModificarUno')->add(new Middleware("Socio"));
+
+});
+
+//mesas
+$app->group('/mesas', function (RouteCollectorProxy $group) {
+  $group->post('[/]', \MesaController::class . ':CargarUno'); 
+  $group->get('[/]', \MesaController::class . ':TraerTodos');
+  $group->put('[/]', \MesaController::class. ':ModificarUno')->add(new Middleware("Mozo"));
+  $group->put('/cerrar', \MesaController::class. ':CerrarMesa')->add(new Middleware("Socio"));
+});
+//pedidos
+$app->group('/pedidos', function (RouteCollectorProxy $group) {
+    $group->post('[/]', \PedidoController::class . ':CargarUno')->add(new Middleware("Mozo")); 
+    $group->get('/listar', \PedidoController::class . ':TraerTodos')->add(new Middleware("Socio"));
+    $group->get('/usuario/buscar/', \PedidoController::class. ':TraerUno');
+    $group->get('/empleados/buscar/', \PedidoController::class. ':TraerUno')->add(new Middleware("Empleado"));
+    $group->put('[/]', \PedidoController::class . ':ModificarUno')->add(new Middleware("Empleado"));
+    $group->delete('[/]', \PedidoController::class . ':BorrarUno')->add(new Middleware("Empleado"));
+    $group->get('/buscarbajas/', \PedidoController::class . ':BuscarBaja'); 
+
+});
+
+$app->get('[/]', function (Request $request, Response $response) {    
+  $response->getBody()->write("La Comanda Alejandro Bongioanni");
+  return $response;
+
+});
 
 $app->run();
 
