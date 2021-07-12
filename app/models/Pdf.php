@@ -2,7 +2,7 @@
 
 use function PHPSTORM_META\type;
 
-require_once './FPDF/fpdf.php';
+require_once '../FPDF/fpdf.php';
 
 
 
