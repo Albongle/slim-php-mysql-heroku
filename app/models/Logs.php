@@ -5,20 +5,18 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Login extends Model
+class Logs extends Model
 {
 
-
-
-    protected $primaryKey = 'idLogin';
-    protected $table = 'login';
+    protected $primaryKey = 'idLogs';
+    protected $table = 'logs';
     public $incrementing = true;
     public $timestamps = true;
     const CREATED_AT = 'fechaCreacion';
     const UPDATED_AT = null;
 
     protected $fillable = [
-        'idUsuario', 'horaIng'
+        'idUsuario', 'horaRegistro','entidad','accion','detalle'
     ];
 
 }

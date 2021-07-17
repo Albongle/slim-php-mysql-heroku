@@ -1,14 +1,19 @@
 <?php
 require_once "./models/Usuario.php";
-require_once "./models/Login.php";
+require_once "./middlewares/middleware.php";
+require_once "./controllers/LogsController.php";
 require_once "./interfaces/IApiUsable.php";
 require_once "./models/AutentificadorJWT.php";
+
+
+
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
-
-use AutentificadorJWT as AutentificadorJWT;
 use App\Models\Usuario as Usuario;
-use App\Models\Login as Login;
+use Middleware as Middlewre;
+use AutentificadorJWT as AutentificadorJWT;
+use LogsController as LogsController;
+use Slim\Handlers\Strategies\RequestHandler;
 
 class UsuarioController implements IApiUsable
 {
@@ -49,6 +54,8 @@ class UsuarioController implements IApiUsable
                         if (!isset($payload)) {
                             $usr->estado="Activo";
                             $usr->save();
+                            $usrLog=  Middleware::GetDatosUsuario($request);
+                            LogsController::CargarUno($usrLog,"Usuarios","Alta",array('Usuario Afectado: ', array($usr->mail)));
                             $payload = json_encode(array("mensaje"=>"Usuario creado con Exito"));
                         }
                     } else {
@@ -85,6 +92,8 @@ class UsuarioController implements IApiUsable
                                 $usr->$key = $value;
                             }
                             $usr->save();
+                            $usrLog=  Middleware::GetDatosUsuario($request);
+                            LogsController::CargarUno($usrLog,"Usuarios","Modificacion",array('Usuario Afectado: ',array($usr->idUsuarios), " Campos Recibidos: ", $datos));
                             $payload = json_encode(array("mensaje" => "Usuario modificado con exito"));
                         } else {
                             $payload = json_encode(array("mensaje" => "El parametro a modificar es incorrecto", "Estados"=> "Activo, Suspendido, Baja"));
@@ -126,12 +135,8 @@ class UsuarioController implements IApiUsable
                         "sector" => $usuario->sector,
                         "estado"=> $usuario->estado
                       ];
-                      $login = new Login();
-                      $login->horaIng =  date("H:i:s");
-                      $login->idUsuario =  $usuario->idUsuarios;
-                      $login->save();
-
                     $payload =  AutentificadorJWT::CrearToken($datos);
+                    LogsController::CargarUno(AutentificadorJWT::ObtenerData($payload),"Usuario","Login",array('Ingreso al Sistema'));
                 } else {
                     $payload = json_encode(array("mensaje" => "No se pudo verirficar el usuario o la contraseña"));
                 }
@@ -196,6 +201,8 @@ class UsuarioController implements IApiUsable
             if (isset($parametros['id'])) {
                 $usr =  Usuario::find($parametros['id']);
                 if ($usr) {
+                    $usrLog=  Middleware::GetDatosUsuario($request);
+                    LogsController::CargarUno($usrLog,"Usuarios","Baja",array('Usuario Afectado: ', array($usr->mail)));
                     $usr->update(['estado'=>'Baja']);
                     $usr->delete();
                     $payload = json_encode(array("mensaje" => "Usuario borrada con exito"));

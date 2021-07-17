@@ -3,9 +3,13 @@ require_once "./models/Mesa.php";
 require_once "./models/Pedido.php";
 require_once "./interfaces/IApiUsable.php";
 require_once "./models/AutentificadorJWT.php";
+require_once "./controllers/LogsController.php";
+require_once "./middlewares/middleware.php";
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
+use LogsController as LogsController;
+use Middleware as Middleware;
 use App\Models\Pedido as Pedido;
 use App\Models\Mesa as Mesa;
 
@@ -39,6 +43,8 @@ class MesaController implements IApiUsable
                 $mesa->codigo = $this->GenerarCodigoMesa("M".$parametros['idmesa']);
                 $mesa->estado =  "Cerrada";
                 $mesa->save();
+                $usrLog=  Middleware::GetDatosUsuario($request);
+                LogsController::CargarUno($usrLog, "Mesas", "Alta", array('Mesa Afectada: ', array($mesa->idMesas)));
                 $payload = json_encode(array("mensaje" => "Mesa creada con exito"));
             } else {
                 $payload = json_encode(array("mensaje" => "No se recibio alguno de los parametros necesarios para el alta de Mesa", "Numero de Mesa"=>"idmesa"));
@@ -61,20 +67,20 @@ class MesaController implements IApiUsable
                     if (in_array($parametros['estado'], Mesa::ESTADO)) {
                         if ($parametros['estado'] == "Pagando") {
                             //Si el estado a cambiar es pagando, verifico antes que no tenga pedidos pendientes de procesar
-                            $pedidosPendientes =  Pedido::where('idMesa', '=', $parametros['id'])->whereIn('estado',['Iniciado','Preparacion'])->select('pedidos.idPedidos')->get();
+                            $pedidosPendientes =  Pedido::where('idMesa', '=', $parametros['id'])->whereIn('estado', ['Iniciado','Preparacion'])->select('pedidos.idPedidos')->get();
                             if (count($pedidosPendientes)>0) {
                                 $payload = json_encode(array("mensaje" => "Se cancelo la modificacion, dado que la mesa aun tiene pedidos pendientes de procesar"));
-                            } else {
-                                $mesa->update(['estado'=>$parametros['estado']]);
-                                $mesa->save();
-                                $payload = json_encode(array("mensaje" => "Se modfico el estado con exito"));
                             }
-                        } else {
+                        }
+                        if (!isset($payload)) {
                             $mesa->update(['estado'=>$parametros['estado']]);
                             $mesa->save();
+                            $usrLog=  Middleware::GetDatosUsuario($request);
+                            LogsController::CargarUno($usrLog, "Mesas", "Modificacion", array('Mesa Afectada: ', array($mesa->idMesas), " Estado: ",array($mesa->estado)));
                             $payload = json_encode(array("mensaje" => "Se modfico el estado con exito"));
                         }
-                    } else {
+                    }
+                    else {
                         $payload = json_encode(array("mensaje" => "Estado no permitido, solo se permite: Esperando, Pagando, Comiendo"));
                     }
                 } else {
@@ -97,12 +103,14 @@ class MesaController implements IApiUsable
             if (isset($parametros['id'])) {
                 $mesa =  Mesa::find($parametros['id']);
                 if ($mesa) {
-                    $pedidosPendientes =  Pedido::where('idMesa', '=', $parametros['id'])->whereIn('estado',['Iniciado','Preparacion'])->select('pedidos.idPedidos')->get();
+                    $pedidosPendientes =  Pedido::where('idMesa', '=', $parametros['id'])->whereIn('estado', ['Iniciado','Preparacion'])->select('pedidos.idPedidos')->get();
                     if (count($pedidosPendientes)>0) {
                         $payload = json_encode(array("mensaje" => "Se cancelo el cierre de la mesa, dado que la mesa aun tiene pedidos pendientes de procesar"));
                     } else {
                         $mesa->update(['estado'=>'Cerrada']);
                         $mesa->save();
+                        $usrLog=  Middleware::GetDatosUsuario($request);
+                        LogsController::CargarUno($usrLog, "Mesas", "Modificacion", array('Mesa Afectada: ', array($mesa->idMesas), " Estado: ",array($mesa->estado)));
                         $payload = json_encode(array("mensaje" => "Mesa cerrada con exito"));
                     }
                 } else {
@@ -123,7 +131,7 @@ class MesaController implements IApiUsable
     {
         $carateres =  str_split('ABCDEFGHIJKLMNOPQRSTUVWXYZ');
 
-        while (count(str_split($codigo))<5) {
+        while (strlen($codigo)<5) {
             $valor = rand(0, count($carateres)-1);
             $codigo.= $carateres[$valor];
         }

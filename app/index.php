@@ -11,13 +11,15 @@ use Slim\Routing\RouteContext;
 use Slim\Exception\NotFoundException;
 use Illuminate\Database\Capsule\Manager as Capsule;
 
-
-require __DIR__ . '/../vendor/autoload.php';
+require __DIR__ . './vendor/autoload.php';
 require_once "./middlewares/middleware.php";
 require_once "./controllers/UsuarioController.php";
 require_once "./controllers/ProductoController.php";
 require_once "./controllers/MesaController.php";
 require_once "./controllers/PedidoController.php";
+require_once "./controllers/GestorDeArchivos.php";
+require_once "./controllers/EncuestaController.php";
+require_once "./controllers/FacturacionController.php";
 
 date_default_timezone_set('America/Argentina/Buenos_Aires');
 
@@ -29,7 +31,7 @@ $dotenv->safeLoad();
 
 // Instantiate App
 $app = AppFactory::create();
-$app->setBasePath("/LaComanda"); 
+$app->setBasePath("/app"); 
 $app->addBodyParsingMiddleware();
 $app->addRoutingMiddleware();
 // Add error middleware
@@ -67,6 +69,8 @@ $app->group('/usuarios', function (RouteCollectorProxy $group) {
   $group->get('/buscar/', \UsuarioController::class. ':TraerUno')->add(new Middleware("Admin"));
   $group->put('[/]', \UsuarioController::class. ':ModificarUno')->add(new Middleware("Admin"));
   $group->delete('[/]', \UsuarioController::class. ':BorrarUno')->add(new Middleware("Admin"));
+  $group->get('/csv/descargar', \GestorDeArchivos::class . ':DescagarCSV')->add(new Middleware("Admin"));
+  $group->post('/csv/cargar', \GestorDeArchivos::class . ':CargarCSV')->add(new Middleware("Admin"));  
 
 });
 
@@ -76,6 +80,8 @@ $app->group('/productos', function (RouteCollectorProxy $group) {
   $group->get('[/]', \ProductoController::class . ':TraerTodos');
   $group->get('/buscar/', \ProductoController::class. ':TraerUno');
   $group->put('[/]', \ProductoController::class. ':ModificarUno')->add(new Middleware("Socio"));
+  $group->get('/csv/descargar', \GestorDeArchivos::class . ':DescagarCSV')->add(new Middleware("Socio"));
+  $group->post('/csv/cargar', \GestorDeArchivos::class . ':CargarCSV')->add(new Middleware("Socio")); 
 
 });
 
@@ -85,6 +91,7 @@ $app->group('/mesas', function (RouteCollectorProxy $group) {
   $group->get('[/]', \MesaController::class . ':TraerTodos');
   $group->put('[/]', \MesaController::class. ':ModificarUno')->add(new Middleware("Mozo"));
   $group->put('/cerrar', \MesaController::class. ':CerrarMesa')->add(new Middleware("Socio"));
+  $group->get('/csv/descargar', \GestorDeArchivos::class . ':DescagarCSV')->add(new Middleware("Socio")); 
 });
 //pedidos
 $app->group('/pedidos', function (RouteCollectorProxy $group) {
@@ -94,9 +101,50 @@ $app->group('/pedidos', function (RouteCollectorProxy $group) {
     $group->get('/empleados/buscar/', \PedidoController::class. ':TraerUno')->add(new Middleware("Empleado"));
     $group->put('[/]', \PedidoController::class . ':ModificarUno')->add(new Middleware("Empleado"));
     $group->delete('[/]', \PedidoController::class . ':BorrarUno')->add(new Middleware("Empleado"));
-    $group->get('/buscarbajas/', \PedidoController::class . ':BuscarBaja'); 
+    $group->get('/csv/descargar', \GestorDeArchivos::class . ':DescagarCSV')->add(new Middleware("Socio"));
 
 });
+
+//facturar
+$app->group('/facturar', function (RouteCollectorProxy $group) {
+  $group->post('[/]', \FacturacionController::class . ':CargarUno')->add(new Middleware("Socio")); 
+
+
+});
+
+//encuestas
+$app->group('/encuesta', function (RouteCollectorProxy $group) {
+  $group->post('[/]', \EncuestaController::class . ':CargarUno'); 
+
+
+});
+
+
+//GestorDeConsultas
+$app->group('/descargarPDF', function (RouteCollectorProxy $group) {
+
+  $group->get('/empleados/ingresoAlSistema', \GestorDeArchivos::class . ':GenerarPDf');
+  $group->get('/empleados/operacionesPorSector', \GestorDeArchivos::class . ':GenerarPDf');
+  $group->get('/empleados/operacionesPorSectorYEmpleado', \GestorDeArchivos::class . ':GenerarPDf');
+  $group->get('/empleados/operacionesPorEmpleado', \GestorDeArchivos::class . ':GenerarPDf');
+  $group->get('/pedidos/masVendidos', \GestorDeArchivos::class . ':GenerarPDf');
+  $group->get('/pedidos/menosVendidos', \GestorDeArchivos::class . ':GenerarPDf');
+  $group->get('/pedidos/fueraDeTiempo', \GestorDeArchivos::class . ':GenerarPDf');
+  $group->get('/pedidos/cancelados', \GestorDeArchivos::class . ':GenerarPDf');
+  $group->get('/mesas/masUsadas', \GestorDeArchivos::class . ':GenerarPDf');
+  $group->get('/mesas/menosUsadas', \GestorDeArchivos::class . ':GenerarPDf');
+  $group->get('/mesas/masFacturo', \GestorDeArchivos::class . ':GenerarPDf');
+  $group->get('/mesas/menosFacturo', \GestorDeArchivos::class . ':GenerarPDf');
+  $group->get('/mesas/mayorFactura', \GestorDeArchivos::class . ':GenerarPDf');
+  $group->get('/mesas/menorFactura', \GestorDeArchivos::class . ':GenerarPDf');
+  $group->get('/mesas/fechaFacturacion', \GestorDeArchivos::class . ':GenerarPDf');
+  $group->get('/mesas/mejoresComentarios', \GestorDeArchivos::class . ':GenerarPDf');
+  $group->get('/mesas/peoresComentarios', \GestorDeArchivos::class . ':GenerarPDf');
+
+})->add(new Middleware("Admin"));
+
+
+
 
 $app->get('[/]', function (Request $request, Response $response) {    
   $response->getBody()->write("La Comanda Alejandro Bongioanni");

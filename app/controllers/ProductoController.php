@@ -1,12 +1,16 @@
 <?php
 require_once "./models/Producto.php";
 require_once "./models/Usuario.php";
+require_once "./middlewares/middleware.php";
+require_once "./controllers/LogsController.php";
 require_once "./interfaces/IApiUsable.php";
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
-
 use App\Models\Producto as Producto;
 use App\Models\Usuario as Usuario;
+use LogsController as LogsController;
+use Middleware as Middleware;
+
 
 class ProductoController implements IApiUsable
 {
@@ -55,6 +59,8 @@ class ProductoController implements IApiUsable
                     $producto->precio = $parametros ['precio'];
                     $producto->sector = $parametros['sector'];
                     $producto->save();
+                    $usrLog=  Middleware::GetDatosUsuario($request);
+                    LogsController::CargarUno($usrLog,"Productos","Alta",array('Producto Afectado: ', array($producto->idProductos)));
                     $payload = json_encode(array("mensaje" => "Producto creado con exito"));
                 } else {
                     $payload = json_encode(array("mensaje" => "Tipo de producto o Sector no permitidos", "Tipos productos"=>"Comida, Bebidas, Postre","Sectores"=>"Tragos, Choperas, Candy Bar, Cocina"));
@@ -84,8 +90,10 @@ class ProductoController implements IApiUsable
                         foreach ($datos as $key => $value) {
                             $producto->$key = $value;
                         }
+                        $usrLog=  Middleware::GetDatosUsuario($request);
+                        LogsController::CargarUno($usrLog,"Productos","Modificacion",array('Producto Afectado: ', array($producto->idProductos), " Campos: ", $datos));
                         $producto->save();
-                        $payload = json_encode(array("mensaje" => "Precio del producto modificado con exito"));
+                        $payload = json_encode(array("mensaje" => "Producto modificado con exito"));
                     } else {
                         $payload = json_encode(array("mensaje" => "No se encontro un paramatro a modificar"));
                     }

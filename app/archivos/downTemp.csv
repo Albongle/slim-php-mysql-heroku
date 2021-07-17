@@ -1,0 +1,16 @@
+1,Jose,Perez,jp@mail.com.ar,12345,Empleado,Mozo,NA,2021-06-09T03:00:00.000000Z,-000001-11-30T03:53:48.000000Z,,Activo
+2,Ricardo,Suarez,rs@mail.com.ar,12345,Empleado,Mozo,NA,2021-06-09T03:00:00.000000Z,2021-07-07T03:00:00.000000Z,,Activo
+3,Marta,Elizaldez,me@mail.com.ar,12345,Empleado,Mozo,NA,2021-06-09T03:00:00.000000Z,2021-06-10T03:00:00.000000Z,,Activo
+4,Sebastian,Lopez,sl@mail.com.ar,12345,Empleado,Mozo,NA,2021-06-09T03:00:00.000000Z,2021-06-11T03:00:00.000000Z,,Suspendido
+5,Helena,Gimenez,hg@mail.com.ar,12345,Empleado,Mozo,NA,2021-06-09T03:00:00.000000Z,2021-06-09T03:00:00.000000Z,,Activo
+7,Luis,Martinez,lm@mail.com.ar,12345,Empleado,Bartender,Tragos,2021-06-11T03:00:00.000000Z,2021-07-07T03:00:00.000000Z,2021-07-07T03:00:00.000000Z,Baja
+8,Alejandro,Bongioanni,albongle@mail.com.ar,12345,Admin,NA,NA,2021-07-08T03:00:00.000000Z,2021-07-08T03:00:00.000000Z,,Activo
+9,Mariela,Esquivel,mesquivel@mail.com.ar,12345,Admin,NA,NA,2021-07-08T03:00:00.000000Z,2021-07-08T03:00:00.000000Z,,Activo
+10,Jose,Carmona,jsc@mail.com.ar,12345,Socio,NA,NA,2021-07-08T03:00:00.000000Z,2021-07-08T03:00:00.000000Z,,Activo
+11,Raul,Taibo,rt@mail.com.ar,12345,Empleado,Bartender,Tragos,2021-07-08T03:00:00.000000Z,2021-07-08T03:00:00.000000Z,,Activo
+12,Marcelo,Neri,mn@mail.com.ar,12345,Empleado,Cocinero,Cocina,2021-07-08T03:00:00.000000Z,2021-07-08T03:00:00.000000Z,,Activo
+13,Sebastian,Lorenzo,slorenzo@mail.com.ar,12345,Empleado,Cocinero,"Candy Bar",2021-07-08T03:00:00.000000Z,2021-07-08T03:00:00.000000Z,,Activo
+14,Diego,Vea,dv@mail.com.ar,12345,Empleado,Cocinero,Cocina,2021-07-08T03:00:00.000000Z,2021-07-08T03:00:00.000000Z,,Activo
+15,Leonel,Serrizuela,lzz@mail.com.ar,12345,Empleado,Bartender,Choperas,2021-07-08T03:00:00.000000Z,2021-07-08T03:00:00.000000Z,,Activo
+16,Pepe,Argento,pa@mail.com.ar,12345,Empleado,Mozo,NA,2021-07-08T03:00:00.000000Z,2021-07-08T03:00:00.000000Z,,Activo
+17,"Maria Helena",Fuseneco,mhf@mail.com.ar,12345,Empleado,Mozo,NA,2021-07-08T03:00:00.000000Z,2021-07-08T03:00:00.000000Z,,Activo

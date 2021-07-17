@@ -2,15 +2,15 @@
 
 use function PHPSTORM_META\type;
 
-require_once '../FPDF/fpdf.php';
+require_once './FPDF/fpdf.php';
 
 
 
 class PDF extends FPDF
 {
-    
     public function Header()
     {
+        $this->Image('./img/Logo/logo.png', 10, 1, 35);
         $this->SetFont('arial', 'B', 15);
         $this->Cell(80);
         $this->Cell(100, 10, "La Comanda", 1, 0, 'C');
@@ -35,7 +35,7 @@ class PDF extends FPDF
         // Cabecera
         $w = array();
         $ancho = 30;
-        for ($i=0; $i <count($header) ; $i++) { 
+        for ($i=0; $i <count($header) ; $i++) {
             $w[]=$ancho +15;
         }
 
@@ -50,12 +50,10 @@ class PDF extends FPDF
         // Datos
         $fill = false;
         foreach ($data as $row) {
-            foreach ($row as $key=>$value) {
-                $this->Cell($w[0], 6, $row[$key], 'LR', 0, 'L', $fill);
-            }
-            $this->Ln();
+            $this->Cell($w[0], 6, $row, 'LR', 0, 'L', $fill);            
             $fill = !$fill;
         }
+        $this->Ln();
         // Línea de cierre
         $this->Cell(array_sum($w), 0, '', 'T');
     }
