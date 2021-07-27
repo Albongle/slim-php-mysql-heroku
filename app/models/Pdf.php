@@ -49,11 +49,14 @@ class PDF extends FPDF
         $this->SetFont('');
         // Datos
         $fill = false;
-        foreach ($data as $row) {
-            $this->Cell($w[0], 6, $row, 'LR', 0, 'L', $fill);            
+        
+        foreach ($data as $clave => $row) {
+            foreach ($row as $key => $value) {
+                $this->Cell($w[0], 6, $value, 'LR', 0, 'L', $fill);
+            }
+            $this->Ln();
             $fill = !$fill;
         }
-        $this->Ln();
         // Línea de cierre
         $this->Cell(array_sum($w), 0, '', 'T');
     }

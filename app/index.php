@@ -11,7 +11,7 @@ use Slim\Routing\RouteContext;
 use Slim\Exception\NotFoundException;
 use Illuminate\Database\Capsule\Manager as Capsule;
 
-require_once './vendor/autoload.php';
+require __DIR__ . '../vendor/autoload.php';
 require_once "./middlewares/middleware.php";
 require_once "./controllers/UsuarioController.php";
 require_once "./controllers/ProductoController.php";
@@ -127,8 +127,8 @@ $app->group('/descargarPDF', function (RouteCollectorProxy $group) {
   $group->get('/empleados/operacionesPorSector', \GestorDeArchivos::class . ':GenerarPDf');
   $group->get('/empleados/operacionesPorSectorYEmpleado', \GestorDeArchivos::class . ':GenerarPDf');
   $group->get('/empleados/operacionesPorEmpleado', \GestorDeArchivos::class . ':GenerarPDf');
-  $group->get('/pedidos/masVendidos', \GestorDeArchivos::class . ':GenerarPDf');
-  $group->get('/pedidos/menosVendidos', \GestorDeArchivos::class . ':GenerarPDf');
+  $group->get('/pedidos/masVendido', \GestorDeArchivos::class . ':GenerarPDf');
+  $group->get('/pedidos/menosVendido', \GestorDeArchivos::class . ':GenerarPDf');
   $group->get('/pedidos/fueraDeTiempo', \GestorDeArchivos::class . ':GenerarPDf');
   $group->get('/pedidos/cancelados', \GestorDeArchivos::class . ':GenerarPDf');
   $group->get('/mesas/masUsadas', \GestorDeArchivos::class . ':GenerarPDf');

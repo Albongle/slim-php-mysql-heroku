@@ -279,13 +279,21 @@ class GestorDeArchivos
 
         $arrayDatos = array();
         $arrayEncabezados = array();
-
+        $flag =  false;
         if (isset($respuesta) && count($respuesta->resultado)>0) {
-            $datos = $respuesta->resultado[0];
+            $datos = $respuesta->resultado;
             foreach ($datos as $key => $value) {
-                $arrayDatos[] = $datos->$key;
-                $arrayEncabezados[]=$key;
+                $arrayDatos[]=$value;
+                if(!$flag)
+                {
+                    foreach ($value as $key => $value) {
+                        $arrayEncabezados[]=$key;
+                    }
+                    $flag=true;
+                }
+               
             }
+  
             try {
                 $pdf = new PDF();
                 $pdf->AliasNbPages();

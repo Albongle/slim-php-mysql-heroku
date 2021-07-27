@@ -34,8 +34,14 @@ class PedidoController implements IApiUsable
                 case "/LaComanda/pedidos/usuario/buscar/":
                     {
                         if (isset($parametros['codigomesa'])) {
-                            $pedidos =  Pedido::join('mesas', 'pedidos.idMesa', '=', 'mesas.idMesas')->where('mesas.codigo', '=', $parametros['codigomesa'])->join('productos', 'pedidos.idProducto', '=', 'productos.idProductos')->select('pedidos.horaInicio', 'pedidos.horaEstFin', 'pedidos.estado', 'productos.tipo', 'productos.nombre')->get();
-                            $payload = json_encode(array("Pedido"=>$pedidos));
+                            $pedidos =  Pedido::join('mesas', 'pedidos.idMesa', '=', 'mesas.idMesas')->where('mesas.codigo', '=', $parametros['codigomesa'])->join('productos', 'pedidos.idProducto', '=', 'productos.idProductos')->select('pedidos.horaInicio', 'pedidos.horaEstFin', 'pedidos.estado', 'productos.tipo', 'productos.nombre', 'pedidos.cantidad')->get();
+                            if(count($pedidos)>0){
+                                $payload = json_encode(array("Pedido"=>$pedidos));
+                            }
+                            else
+                            {
+                                $payload = json_encode(array("Mensaje"=>"Sin Pedidos")); 
+                            }
                         } else {
                             $payload = json_encode(array("mensaje"=> "No se recibio ninguno de los parametros necesarios: codigomesa"));
                         }
@@ -45,7 +51,14 @@ class PedidoController implements IApiUsable
                     {
                         $datosUsr =  Middleware::GetDatosUsuario($request);
                         $pedidos =  Pedido::join('mesas', 'pedidos.idMesa', '=', 'mesas.idMesas')->join('productos', 'pedidos.idProducto', '=', 'productos.idProductos')->join('usuarios', 'usuarios.idUsuarios', '=', 'pedidos.idSolicitante')->where('productos.sector', '=', $datosUsr->sector)->select('pedidos.idPedidos as NumeroDePedido', 'usuarios.apellido as Solicitante', 'mesas.idMesas as NumeroDeMesa', 'pedidos.horaInicio', 'pedidos.horaEstFin', 'pedidos.horaFin', 'pedidos.estado as Estado', 'productos.tipo as Tipo', 'productos.nombre as Nombre', 'pedidos.cantidad as Cantidad')->get();
-                        $payload = json_encode(array("Pedido"=>$pedidos));
+                        if(count($pedidos)>0){
+                            $payload = json_encode(array("Pedido"=>$pedidos));
+                        }
+                        else
+                        {
+                            $payload = json_encode(array("Mensaje"=>"Sin Pedidos")); 
+                        }
+                        
                         break;
                     }
                 default:

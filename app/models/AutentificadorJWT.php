@@ -13,7 +13,7 @@ class AutentificadorJWT
         $ahora = time();
         $payload = array(
         	'iat'=>$ahora,
-            'exp' => $ahora + (3600),
+            'exp' => $ahora + (21600), // el token expira a las 6 horas de logueo
             'aud' => self::Aud(),
             'data' => $datos,
             'app'=> "LaComanda"
