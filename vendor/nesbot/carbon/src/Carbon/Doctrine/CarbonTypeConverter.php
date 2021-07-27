@@ -95,7 +95,7 @@ trait CarbonTypeConverter
             return $value;
         }
 
-        if ($value instanceof DateTimeInterface) {
+        if ($value instanceof DateTimeInterface || $value instanceof CarbonInterface) {
             return $value->format('Y-m-d H:i:s.u');
         }
 

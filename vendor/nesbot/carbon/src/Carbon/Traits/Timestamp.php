@@ -45,7 +45,6 @@ trait Timestamp
         $delta = floor($decimal / static::MICROSECONDS_PER_SECOND);
         $integer += $delta;
         $decimal -= $delta * static::MICROSECONDS_PER_SECOND;
-        $decimal = str_pad((string) $decimal, 6, '0', STR_PAD_LEFT);
 
         return static::rawCreateFromFormat('U u', "$integer $decimal");
     }
@@ -174,8 +173,8 @@ trait Timestamp
         foreach (preg_split('`[^0-9.]+`', $numbers) as $chunk) {
             [$integerPart, $decimalPart] = explode('.', "$chunk.");
 
-            $integer += (int) $integerPart;
-            $decimal += (float) ("0.$decimalPart");
+            $integer += \intval($integerPart);
+            $decimal += \floatval("0.$decimalPart");
         }
 
         $overflow = floor($decimal);
