@@ -9,7 +9,7 @@ require_once "./models/AutentificadorJWT.php";
 
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
-use App\Models\Usuario as Usuario;
+use \App\Models\Usuario as Usuario;
 use Middleware as Middlewre;
 use AutentificadorJWT as AutentificadorJWT;
 use LogsController as LogsController;

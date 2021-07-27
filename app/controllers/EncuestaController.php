@@ -6,9 +6,9 @@ require_once "./interfaces/IApiUsable.php";
 
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
-use App\Models\Encuesta as Encuesta;
-use App\Models\Mesa as Mesa;
-use App\Models\Usuario as Usuario;
+use \App\Models\Encuesta as Encuesta;
+use \App\Models\Mesa as Mesa;
+use \App\Models\Usuario as Usuario;
 
 
 class EncuestaController implements IApiUsable{

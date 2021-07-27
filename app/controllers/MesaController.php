@@ -10,8 +10,8 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 
 use LogsController as LogsController;
 use Middleware as Middleware;
-use App\Models\Pedido as Pedido;
-use App\Models\Mesa as Mesa;
+use \App\Models\Pedido as Pedido;
+use \App\Models\Mesa as Mesa;
 
 class MesaController implements IApiUsable
 {

@@ -12,10 +12,10 @@ use PDF as PDF;
 
 use Middleware as Middleware;
 use LogsController as LogsController;
-use App\Models\Producto as Producto;
-use App\Models\Usuario as Usuario;
-use App\Models\Mesa as Mesa;
-use App\Models\Pedido as Pedido;
+use \App\Models\Producto as Producto;
+use \App\Models\Usuario as Usuario;
+use \App\Models\Mesa as Mesa;
+use \App\Models\Pedido as Pedido;
 use GestorDeConsultas as GestorDeConsultas;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;

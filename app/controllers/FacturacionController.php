@@ -5,8 +5,8 @@ require_once "./models/Mesa.php";
 require_once "./controllers/LogsController.php";
 
 use LogsController as LogsController;
-use App\Models\Facturacion as Facturacion;
-use App\Models\Mesa as Mesa;
+use \App\Models\Facturacion as Facturacion;
+use \App\Models\Mesa as Mesa;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 

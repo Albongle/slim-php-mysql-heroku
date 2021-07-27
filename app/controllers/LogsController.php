@@ -3,7 +3,7 @@ require_once "./models/Logs.php";
 require_once "./middlewares/middleware.php";
 
 use Middleware as Middleware;
-use App\Models\Logs as Logs;
+use \App\Models\Logs as Logs;
 class LogsController
 {
     /**
