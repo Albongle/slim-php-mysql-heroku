@@ -4,11 +4,8 @@ ini_set('display_errors', 1);
 
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
-use Psr\Http\Server\RequestHandlerInterface as RequestHandler;
 use Slim\Factory\AppFactory;
 use Slim\Routing\RouteCollectorProxy;
-use Slim\Routing\RouteContext;
-use Slim\Exception\NotFoundException;
 use Illuminate\Database\Capsule\Manager as Capsule;
 
 require __DIR__ . '/../vendor/autoload.php';
@@ -36,10 +33,11 @@ $app->addBodyParsingMiddleware();
 $app->addRoutingMiddleware();
 // Add error middleware
 $app->addErrorMiddleware(true, true, true);
-$container=$app->getContainer();
+
 
 
 // Eloquent
+$container=$app->getContainer();
 $capsule = new Capsule;
 $capsule->addConnection([
     'driver'    => 'mysql',
