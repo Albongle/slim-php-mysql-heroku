@@ -36,6 +36,7 @@ $app->addBodyParsingMiddleware();
 $app->addRoutingMiddleware();
 // Add error middleware
 $app->addErrorMiddleware(true, true, true);
+$container=$app->getContainer();
 
 
 // Eloquent
